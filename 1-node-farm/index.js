@@ -1,3 +1,6 @@
+//DOCUMENTATION 
+//https://nodejs.org/dist/latest-v10.x/docs/api/
+
 // 'require' the file system (fs) to read from and write to files 
 const fs = require('fs');
 
