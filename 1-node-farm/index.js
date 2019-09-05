@@ -11,4 +11,7 @@ const textIn = fs.readFileSync('./starter/txt/input.txt', 'utf-8');
 // Log textIn to console
 console.log(textIn);
 
-const textOut = `This is what we know about the avocado`
+// Use ES6 syntax to insert text and Javascript into a file 
+const textOut = `This is what we know about the avocado: ${textIn}. Created on ${Date.now()}.`;
+fs.writeFileSync('starter/output.txt', textOut);
+console.log('File has been written!')
