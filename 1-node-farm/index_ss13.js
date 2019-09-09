@@ -18,9 +18,9 @@ const dataObj = JSON.parse(data);
 const server = http.createServer((req, res) => { 
     const pathName = req.url
 if(pathName === '/' || pathName === '/overview') {
-    res.end('This is the overview')
+    res.end('This is the overview');
 } else if(pathName === '/product') {
-    res.end('This is the product')    
+    res.end('This is the product');    
 } else if(pathName === '/api') { // create an api path
     // send back data from top level code
     res.end(data);

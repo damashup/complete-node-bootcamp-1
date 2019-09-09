@@ -15,9 +15,9 @@ const server = http.createServer((req, res) => {
     const pathName = req.url
 
 if(pathName === '/' || pathName === '/overview') {
-    res.end('This is the overview')
+    res.end('This is the overview');
 } else if(pathName === '/product') {
-    res.end('This is the product')    
+    res.end('This is the product');    
 } else if(pathName === '/api') { // create an api path
     // read the json file from our directory
     fs.readFile(`${__dirname}/starter/dev-data/data.json`, 'utf-8', (err,data)=> {

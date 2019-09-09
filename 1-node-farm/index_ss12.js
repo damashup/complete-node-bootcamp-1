@@ -12,10 +12,10 @@ const server = http.createServer((req, res) => {
     // set if statements based on what the url is
 if(pathName === '/' || pathName === '/overview') {
     // response to the client
-    res.end('This is the overview')
+    res.end('This is the overview');
 } else if(pathName === '/product') {
     // response to the client
-    res.end('This is the product')
+    res.end('This is the product');
 } else {
     // fallback if url is unknown
     // respond with a 404 message in head
