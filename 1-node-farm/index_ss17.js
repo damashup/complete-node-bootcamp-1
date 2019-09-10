@@ -18,6 +18,7 @@ const tempProduct = fs.readFileSync(`${__dirname}/starter/templates/template-pro
 const data = fs.readFileSync(`${__dirname}/starter/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
 
+// CREATE SERVER
 // CALLBACK function code (executed over and over again whenever client hits server):
 
 const server = http.createServer((req, res) => {

@@ -4,6 +4,7 @@ const http = require('http');
 // gets url data
 const url = require('url');
 
+// CREATE SERVER
 
 const server = http.createServer((req, res) => {
     // get url info from the client

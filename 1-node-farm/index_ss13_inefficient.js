@@ -1,4 +1,4 @@
-// SERVER
+
 
 const http = require('http');
 const url = require('url');
@@ -9,6 +9,7 @@ const fs = require('fs');
 // because file is read every time user requests data
 
 
+// CREATE SERVER
 
 const server = http.createServer((req, res) => {
     
