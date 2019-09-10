@@ -1,27 +1,62 @@
-//DOCUMENTATION 
-//https://nodejs.org/dist/latest-v10.x/docs/api/
+// Core modules
+const http = require('http');
+const url = require('url');
+const fs = require('fs'); 
+
+// IMPORT OWN modules;
+const replaceTemplate = require('./starter/modules/replaceTemplate');
+
+// TOP Level code (executed once when the code is first run):
 
 
-const fs = require('fs'); // 'require' the file system (fs) to read from and write to files 
+const tempCard = fs.readFileSync(`${__dirname}/starter/templates/template-card.html`, 'utf-8');
+const tempOverview = fs.readFileSync(`${__dirname}/starter/templates/template-overview.html`, 'utf-8');
+const tempProduct = fs.readFileSync(`${__dirname}/starter/templates/template-product.html`, 'utf-8');
 
 
-// BLOCKING SYNCHRONOUS WAY 
-const textIn = fs.readFileSync('./starter/txt/input.txt', 'utf-8'); // read data from the file (input.txt), place file into a variable textIn
-// console.log(textIn); // Log textIn to console
-const textOut = `This is what we know about the avocado: ${textIn}. Created on ${Date.now()}.`; // Use ES6 syntax to insert text and Javascript into a file 
-fs.writeFileSync('starter/output.txt', textOut);
-// console.log('File has been written!')
+const data = fs.readFileSync(`${__dirname}/starter/dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data);
 
-// NON-BLOCKING ASYNCHRONOUS WAY / CALL BACK HELL!!
-fs.readFile('./starter/txt/start.txt', 'utf-8', (err, data1)=> {
-    fs.readFile(`./starter/txt/${data1}.txt`, 'utf-8', (err, data2)=> {
-        fs.readFile(`./starter/txt/append.txt`, 'utf-8', (err, data3)=> {
-            console.log(data3);
-            fs.writeFile('./starter/txt/final.txt', `${data2}\n break!\n${data3}`, 'utf-8', err => {
-                console.log(`Your file has been written! 😃`)
-            })
-        });
-        console.log(`${data2}\n Now waiting for append.....` );
+// CALLBACK function code (executed over and over again whenever client hits server):
+
+const server = http.createServer((req, res) => {
+
+    // Parse url info
+    // ES6 destructor url info to get query and pathname info:
+    const { query, pathname} = url.parse(req.url, true);
+
+
+// Overview page
+if(pathname === '/' || pathname === '/overview') {
+
+    res.writeHead(200, {'Content-type': 'text/html'});
+    const cardsHTML = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
+    const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHTML)
+    res.end(output);
+
+// Product page    
+} else if(pathname === '/product') {
+    res.writeHead(200, {'Content-type': 'text/html'});
+    const product = dataObj[query.id];
+    const output = replaceTemplate(tempProduct, product);
+
+    res.end(output);
+    
+// API    
+} else if(pathname === '/api') { 
+    res.end(data);
+
+// Not found    
+} else {
+    res.writeHead(404, {
+        'Content-type': 'text/html',
+        'my-own-header': 'hello-world'
     });
+    res.end('<h1>Page not found!</h1>');
+}
 });
-console.log('Will read file.....')
+
+
+server.listen(8000, '127.0.0.1', ()=> {
+    console.log('Listening to requests on port 8000')
+})
